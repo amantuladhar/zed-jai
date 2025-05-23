@@ -33,7 +33,7 @@
 ; Struct field types - anything after colon but before an optional equals sign is type
 (struct_field
   (identifier) ; field name
-  ":" 
+  ":"
   (_) @type) ; type
 
 (parameter
@@ -77,6 +77,8 @@
 "struct" @keyword
 "enum" @keyword
 "using" @keyword
+"defer" @keyword
+
 
 ; Built-in types
 "bool" @type.builtin
@@ -94,6 +96,12 @@
 "u16" @type.builtin
 "u8" @type.builtin
 "void" @type.builtin
+
+; Special identifiers
+((identifier) @keyword.builtin
+ (#eq? @keyword.builtin "context"))
+((identifier) @keyword.builtin
+ (#eq? @keyword.builtin "push_context"))
 
 ; Directives
 (directive) @keyword.directive
