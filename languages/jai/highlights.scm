@@ -16,6 +16,10 @@
 (enum_definition
   name: (identifier) @type)
 
+; Struct literal expressions
+(struct_literal_expr
+  (identifier) @type)
+
 ; Variable definitions with highlighting for both name and type
 (variable
   name: (identifier) @variable.definition)
