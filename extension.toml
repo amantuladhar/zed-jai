@@ -1,0 +1,11 @@
+id = "jai"
+name = "Jai"
+version = "0.0.1"
+schema_version = 1
+authors = ["Aman Tuladhar"]
+description = "Jai language support (only highlighting at the moment)"
+repository = "https://github.com/amantuladhar/zed-jai"
+
+[grammars.jai]
+repository = "https://github.com/amantuladhar/tree-sitter-jai"
+commit = "128a2bdbfc2484fcd3c87f5922d2b5a912343f51"

@@ -1,0 +1,84 @@
+; Comments
+(comment) @comment
+
+; Functions
+(proc_definition
+  name: (identifier) @function)
+
+; Function calls
+(proc_call_expr
+  function: (identifier) @function.call)
+
+; Types
+(struct_definition
+  name: (identifier) @type)
+
+(enum_definition
+  name: (identifier) @type)
+
+; Variable definitions with highlighting for both name and type
+(variable
+  name: (identifier) @variable.definition)
+
+(parameter
+  name: (identifier) @variable.parameter)
+
+; Constants (by convention)
+((identifier) @constant
+ (#match? @constant "^[A-Z][A-Z0-9_]*$"))
+
+; Basic literals
+(number) @number
+(float) @number
+(string) @string
+(boolean) @boolean
+(null) @constant.builtin
+
+; Operators and punctuation
+"=" @operator.assignment
+"->" @operator
+"::" @keyword.operator
+";" @punctuation.delimiter
+":" @punctuation.delimiter
+"," @punctuation.delimiter
+"." @punctuation.delimiter
+
+; Brackets
+"(" @punctuation.bracket
+")" @punctuation.bracket
+"[" @punctuation.bracket
+"]" @punctuation.bracket
+"{" @punctuation.bracket
+"}" @punctuation.bracket
+
+; Keywords
+"xx" @keyword
+"if" @keyword.control
+"else" @keyword.control
+"for" @keyword.control
+"while" @keyword.control
+"return" @keyword.control
+"struct" @keyword
+"enum" @keyword
+"using" @keyword
+
+; Built-in types
+"bool" @type.builtin
+"string" @type.builtin
+"int" @type.builtin
+"float" @type.builtin
+"float64" @type.builtin
+"float32" @type.builtin
+"s64" @type.builtin
+"s32" @type.builtin
+"s16" @type.builtin
+"s8" @type.builtin
+"u64" @type.builtin
+"u32" @type.builtin
+"u16" @type.builtin
+"u8" @type.builtin
+"void" @type.builtin
+
+; Directives
+(directive) @keyword.directive
+(import_directive) @keyword.directive
