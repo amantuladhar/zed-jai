@@ -24,6 +24,18 @@
 (variable
   name: (identifier) @variable.definition)
 
+; Type in variable declarations
+(variable
+  (identifier) ; variable name
+  ":"
+  (_) @type) ; type name
+
+; Struct field types - anything after colon but before an optional equals sign is type
+(struct_field
+  (identifier) ; field name
+  ":" 
+  (_) @type) ; type
+
 (parameter
   name: (identifier) @variable.parameter)
 
