@@ -95,6 +95,7 @@
 "defer" @keyword
 "continue" @keyword
 "break" @keyword
+"case" @keyword
 
 
 ; Built-in types
