@@ -37,8 +37,11 @@
   (_) @type) ; type name
 
 ; Return type declarations with named parameters
-(return_type_expr
+(proc_return_type_expr
   name: (identifier)
+  type: (_) @type)
+
+(proc_return_type_expr
   type: (_) @type)
 
 ; Struct field types - anything after colon but before an optional equals sign is type
@@ -48,7 +51,8 @@
   (_) @type) ; type
 
 (parameter
-  name: (identifier) @variable.parameter)
+  name: (identifier) @variable.parameter
+  type: (_) @type)
 
 ; Constants (by convention)
 ((identifier) @constant

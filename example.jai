@@ -34,8 +34,14 @@ BUF_C2 : s32 : 1024;
 BAD_VAR :: 100;
 BAD_VAR_2 : s32 = 100;
 
-proc_ret_multiple :: (arg1: s32) -> success: bool, value: u8, x: Process_Flag {
+proc_ret_multiple :: (arg1: *Process_Flag) -> success: bool, value: u8, x: *Process_Flag {
     return success = true, value = 0, x = .PARENT;
+}
+proc_ret_multiple_1 :: (arg1: Process_Flag) -> success: bool = true, value: u8, x: *Process_Flag {
+    return success = true, value = 0, x = .PARENT;
+}
+proc_only_ret :: () -> Process_Flag {
+
 }
 
 proc_ret :: (n: s32, k: *void, l: *Value, m: Value, o: Process_Flag, x: .. Any) -> s32 {
