@@ -9,6 +9,12 @@
 (proc_call_expr
   function: (identifier) @function.call)
 
+; New argument is most probably always type (AFAIK), so give it a @type tag
+(proc_call_expr
+  function: (identifier) @function.call
+  arguments: (argument_list (identifier) @type)
+  (#eq? @function.call "New"))
+
 ; Types
 (struct_definition
   name: (identifier) @type)
