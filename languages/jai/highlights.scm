@@ -36,6 +36,11 @@
   ":"
   (_) @type) ; type name
 
+; Return type declarations with named parameters
+(return_type_expr
+  name: (identifier)
+  type: (_) @type)
+
 ; Struct field types - anything after colon but before an optional equals sign is type
 (struct_field
   (identifier) ; field name
