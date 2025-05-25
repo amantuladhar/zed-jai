@@ -114,3 +114,6 @@
 ; Directives
 (directive) @keyword.directive
 (import_directive) @keyword.directive
+(scope_module) @keyword.directive
+(scope_file) @keyword.directive
+(scope_export) @keyword.directive

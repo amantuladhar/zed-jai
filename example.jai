@@ -113,3 +113,7 @@ main :: () {
         case;
     }
  }
+
+ #scope_file
+ #scope_module
+ #scope_export
