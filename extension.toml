@@ -8,4 +8,4 @@ repository = "https://github.com/amantuladhar/zed-jai"
 
 [grammars.jai]
 repository = "https://github.com/amantuladhar/tree-sitter-jai"
-commit = "fa208799fa3fe34b68ec7078751586aa74ed69c0"
+commit = "3f839bd23f1a16588c208b3b750c1b20a2b82dac"
