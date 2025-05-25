@@ -78,6 +78,8 @@
 "enum" @keyword
 "using" @keyword
 "defer" @keyword
+"continue" @keyword
+"break" @keyword
 
 
 ; Built-in types
