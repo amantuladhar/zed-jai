@@ -96,6 +96,9 @@
 "continue" @keyword
 "break" @keyword
 "case" @keyword
+"ifx" @keyword
+"then" @keyword
+"#if" @keyword
 
 
 ; Built-in types
@@ -129,3 +132,4 @@
 (scope_export) @keyword.directive
 (code_directive "#code" @keyword.directive)
 (insert_directive "#insert" @keyword.directive)
+(assert_directive "#assert" @keyword.directive)
