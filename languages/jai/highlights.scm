@@ -127,3 +127,5 @@
 (scope_module) @keyword.directive
 (scope_file) @keyword.directive
 (scope_export) @keyword.directive
+(code_directive "#code" @keyword.directive)
+(insert_directive "#insert" @keyword.directive)
