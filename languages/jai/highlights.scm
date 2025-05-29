@@ -99,6 +99,9 @@
 "ifx" @keyword
 "then" @keyword
 "#if" @keyword
+"inline" @keyword
+"#char" @keyword.directive
+"#caller_location" @keyword.directive
 
 
 ; Built-in types
@@ -117,6 +120,7 @@
 "u16" @type.builtin
 "u8" @type.builtin
 "void" @type.builtin
+"Any" @type.builtin
 
 ; Special identifiers
 ((identifier) @keyword.builtin
