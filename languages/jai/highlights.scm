@@ -7,7 +7,7 @@
 
 ; Function calls
 (proc_call_expr
-  function: (identifier) @function.call)
+  function: (identifier) @function)
 
 ; New argument is most probably always type (AFAIK), so give it a @type tag
 (proc_call_expr
@@ -28,7 +28,7 @@
 
 ; Variable definitions with highlighting for both name and type
 (variable
-  name: (identifier) @variable.definition)
+  name: (identifier) @variable)
 
 ; Type in variable declarations
 (variable
@@ -51,7 +51,7 @@
   (_) @type) ; type
 
 (parameter
-  name: (identifier) @variable.parameter
+  name: (identifier) @variable
   type: (_) @type)
 
 ; Constants (by convention)
@@ -63,7 +63,7 @@
 (float) @number
 (string) @string
 (boolean) @boolean
-(null) @constant.builtin
+(null) @constant
 
 ; Operators and punctuation
 "=" @operator.assignment
@@ -73,6 +73,7 @@
 ":" @punctuation.delimiter
 "," @punctuation.delimiter
 "." @punctuation.delimiter
+"*" @punctuation.special
 
 ; Brackets
 "(" @punctuation.bracket
