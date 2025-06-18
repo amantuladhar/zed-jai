@@ -103,6 +103,7 @@
 "inline" @keyword
 "#char" @keyword.directive
 "#caller_location" @keyword.directive
+"#complete" @keyword.directive
 
 
 ; Built-in types
