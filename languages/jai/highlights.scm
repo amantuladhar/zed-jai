@@ -1,42 +1,33 @@
-; Comments
 (comment) @comment
 
-; Functions
 (proc_definition
   name: (identifier) @function)
 
-; Function calls
 (proc_call_expr
   function: (identifier) @function)
 
-; New argument is most probably always type (AFAIK), so give it a @type tag
 (proc_call_expr
   function: (identifier) @function.call
   arguments: (argument_list (identifier) @type)
   (#eq? @function.call "New"))
 
-; Types
 (struct_definition
   name: (identifier) @type)
 
 (enum_definition
   name: (identifier) @type)
 
-; Struct literal expressions
 (struct_literal_expr
   (identifier) @type)
 
-; Variable definitions with highlighting for both name and type
 (variable
   name: (identifier) @variable)
 
-; Type in variable declarations
 (variable
-  (identifier) ; variable name
+  (identifier) 
   ":"
-  (_) @type) ; type name
+  (_) @type) 
 
-; Return type declarations with named parameters
 (proc_return_type_expr
   name: (identifier)
   type: (_) @type)
@@ -44,28 +35,38 @@
 (proc_return_type_expr
   type: (_) @type)
 
-; Struct field types - anything after colon but before an optional equals sign is type
-(struct_field
-  (identifier) ; field name
-  ":"
-  (_) @type) ; type
-
 (parameter
   name: (identifier) @variable
   type: (_) @type)
 
-; Constants (by convention)
+(named_argument 
+    name: (identifier) @hint
+    value: (_) @identifier ) 
+
+(struct_literal_expr 
+  (struct_initialize_with_field 
+    (identifier) @hint
+    (identifier)))
+
+(struct_field
+    name: (identifier) @identifier
+    type: (_) @type )
+
+(union_body
+    (struct_field
+        name: (identifier) @identifier 
+        type: (_))
+)
+
 ((identifier) @constant
  (#match? @constant "^[A-Z][A-Z0-9_]*$"))
 
-; Basic literals
 (number) @number
 (float) @number
 (string) @string
 (boolean) @boolean
 (null) @constant
 
-; Operators and punctuation
 "=" @operator.assignment
 "->" @operator
 "::" @keyword.operator
@@ -74,6 +75,7 @@
 "," @punctuation.delimiter
 "." @punctuation.delimiter
 "*" @punctuation.special
+".." @punctuation
 
 ; Brackets
 "(" @punctuation.bracket
@@ -93,6 +95,7 @@
 "struct" @keyword
 "enum" @keyword
 "using" @keyword
+"union" @keyword
 "defer" @keyword
 "continue" @keyword
 "break" @keyword
@@ -104,6 +107,7 @@
 "#char" @keyword.directive
 "#caller_location" @keyword.directive
 "#complete" @keyword.directive
+"#run" @keyword.directive
 
 
 ; Built-in types
@@ -129,6 +133,8 @@
  (#eq? @keyword.builtin "context"))
 ((identifier) @keyword.builtin
  (#eq? @keyword.builtin "push_context"))
+
+
 
 ; Directives
 (directive) @keyword.directive
