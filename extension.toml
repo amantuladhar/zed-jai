@@ -1,11 +1,15 @@
 id = "jai"
 name = "Jai"
-version = "0.0.1"
+version = "0.1.0"
 schema_version = 1
-authors = ["Aman Tuladhar"]
-description = "Jai language support (only highlighting at the moment)"
+authors = ["Aman Tuladhar", "Chip Collier"]
+description = "Jai language support"
 repository = "https://github.com/amantuladhar/zed-jai"
 
+[language_servers.jails]
+name = "jails"
+language = "Jai"
+
 [grammars.jai]
-repository = "https://github.com/amantuladhar/tree-sitter-jai"
-commit = "d80ad2cfe0cd16f8d9cd823e62e607917e026e41"
+repository = "https://github.com/constantitus/tree-sitter-jai"
+commit = "9d6fa4a91fbb2a7d7ff69e688c4d2ff5bed45695"

@@ -1,147 +1,259 @@
-(comment) @comment
+; Includes
 
-(proc_definition
-  name: (identifier) @function)
+[
+  (import)
+  (load)
+] @include
 
-(proc_call_expr
-  function: (identifier) @function)
-
-(proc_call_expr
-  function: (identifier) @function.call
-  arguments: (argument_list (identifier) @type)
-  (#eq? @function.call "New"))
-
-(struct_definition
-  name: (identifier) @type)
-
-(enum_definition
-  name: (identifier) @type)
-
-(struct_literal_expr
-  (identifier) @type)
-
-(variable
-  name: (identifier) @variable)
-
-(variable
-  (identifier) 
-  ":"
-  (_) @type) 
-
-(proc_return_type_expr
-  name: (identifier)
-  type: (_) @type)
-
-(proc_return_type_expr
-  type: (_) @type)
-
-(parameter
-  name: (identifier) @variable
-  type: (_) @type)
-
-(named_argument 
-    name: (identifier) @hint
-    value: (_) @identifier ) 
-
-(struct_literal_expr 
-  (struct_initialize_with_field 
-    (identifier) @hint
-    (identifier)))
-
-(struct_field
-    name: (identifier) @identifier
-    type: (_) @type )
-
-(union_body
-    (struct_field
-        name: (identifier) @identifier 
-        type: (_))
-)
-
-((identifier) @constant
- (#match? @constant "^[A-Z][A-Z0-9_]*$"))
-
-(number) @number
-(float) @number
-(string) @string
-(boolean) @boolean
-(null) @constant
-
-"=" @operator.assignment
-"->" @operator
-"::" @keyword.operator
-";" @punctuation.delimiter
-":" @punctuation.delimiter
-"," @punctuation.delimiter
-"." @punctuation.delimiter
-"*" @punctuation.special
-".." @punctuation
-
-; Brackets
-"(" @punctuation.bracket
-")" @punctuation.bracket
-"[" @punctuation.bracket
-"]" @punctuation.bracket
-"{" @punctuation.bracket
-"}" @punctuation.bracket
 
 ; Keywords
-"xx" @keyword
-"if" @keyword.control
-"else" @keyword.control
-"for" @keyword.control
-"while" @keyword.control
-"return" @keyword.control
-"struct" @keyword
-"enum" @keyword
-"using" @keyword
-"union" @keyword
-"defer" @keyword
-"continue" @keyword
-"break" @keyword
-"case" @keyword
-"ifx" @keyword
-"then" @keyword
-"#if" @keyword
-"inline" @keyword
-"#char" @keyword.directive
-"#caller_location" @keyword.directive
-"#complete" @keyword.directive
-"#run" @keyword.directive
+[
+  ; from modules/Jai_Lexer
+  "if"
+  "xx"
 
+  "ifx"
+  "for"
 
-; Built-in types
-"bool" @type.builtin
-"string" @type.builtin
-"int" @type.builtin
-"float" @type.builtin
-"float64" @type.builtin
-"float32" @type.builtin
-"s64" @type.builtin
-"s32" @type.builtin
-"s16" @type.builtin
-"s8" @type.builtin
-"u64" @type.builtin
-"u32" @type.builtin
-"u16" @type.builtin
-"u8" @type.builtin
-"void" @type.builtin
-"Any" @type.builtin
+  "then"
+  "else"
+  "null"
+  "case"
+  "enum"
+  "true"
+  "cast"
 
-; Special identifiers
-((identifier) @keyword.builtin
- (#eq? @keyword.builtin "context"))
-((identifier) @keyword.builtin
- (#eq? @keyword.builtin "push_context"))
+  "while"
+  "break"
+  "using"
+  "defer"
+  "false"
+  "union"
 
+  "return"
+  "struct"
+  "inline"
+  "remove"
 
+  ; "size_of"
+  "type_of"
+  ; "code_of"
+  ; "context"
 
-; Directives
-(directive) @keyword.directive
-(import_directive) @keyword.directive
-(scope_module) @keyword.directive
-(scope_file) @keyword.directive
-(scope_export) @keyword.directive
-(code_directive "#code" @keyword.directive)
-(insert_directive "#insert" @keyword.directive)
-(assert_directive "#assert" @keyword.directive)
+  "continue"
+  "operator"
+
+  ; "type_info"
+  "no_inline"
+  "interface"
+
+  "enum_flags"
+
+  ; "is_constant"
+
+  "push_context"
+
+  ; "initializer_of"
+] @keyword
+
+[
+  "return"
+] @keyword.return
+
+[
+  "if"
+  "else"
+  "case"
+  "break"
+] @conditional
+
+((if_expression
+  [
+    "then"
+    "ifx"
+    "else"
+  ] @conditional.ternary)
+  (#set! "priority" 105))
+
+; Repeats
+
+[
+  "for"
+  "while"
+  "continue"
+] @repeat
+
+; Variables
+
+; (identifier) @variable
+name: (identifier) @variable
+argument: (identifier) @variable
+named_argument: (identifier) @variable
+(member_expression (identifier) @variable)
+(parenthesized_expression (identifier) @variable)
+
+((identifier) @variable.builtin
+  (#any-of? @variable.builtin "context"))
+
+; Namespaces
+
+(import (identifier) @namespace)
+
+; Parameters
+
+(parameter (identifier) @parameter ":" "="? (identifier)? @constant)
+
+; (call_expression argument: (identifier) @parameter "=")
+
+; Functions
+
+; (procedure_declaration (identifier) @function (procedure (block)))
+(procedure_declaration (identifier) @function (block))
+
+(call_expression function: (identifier) @function.call)
+
+; Types
+
+type: (types) @type
+type: (identifier) @type
+((types) @type)
+
+modifier: (identifier) @keyword
+keyword: (identifier) @keyword
+
+((types (identifier) @type.builtin)
+  (#any-of? @type.builtin
+    "bool" "int" "string"
+    "s8" "s16" "s32" "s64"
+    "u8" "u16" "u32" "u64"
+    "Type" "Any"))
+
+(struct_declaration (identifier) @type ":" ":")
+
+(enum_declaration (identifier) @type ":" ":")
+
+; (const_declaration (identifier) @type ":" ":" [(array_type) (pointer_type)])
+
+; ; I don't like this
+; ((identifier) @type
+;   (#lua-match? @type "^[A-Z][a-zA-Z0-9]*$")
+;   (#not-has-parent? @type parameter procedure_declaration call_expression))
+
+; Fields
+
+(member_expression "." (identifier) @field)
+
+(assignment_statement (identifier) @field "="?)
+(update_statement (identifier) @field)
+
+; Constants
+
+((identifier) @constant
+  (#lua-match? @constant "^_*[A-Z][A-Z0-9_]*$")
+  (#not-has-parent? @constant type parameter))
+
+(member_expression . "." (identifier) @constant)
+
+(enum_declaration "{" (identifier) @constant)
+
+; Literals
+
+(integer) @number
+(float) @number
+
+(string) @string
+
+;(character) @character
+
+(string_contents (escape_sequence) @string.escape)
+
+(boolean) @boolean
+
+[
+  (uninitialized)
+  (null)
+] @constant.builtin
+
+; Operators
+
+[
+  ":"
+  "="
+  "+"
+  "-"
+  "*"
+  "/"
+  "%"
+  ">"
+  ">="
+  "<"
+  "<="
+  "=="
+  "!="
+  "|"
+  "~"
+  "&"
+  "&~"
+  "<<"
+  ">>"
+  "<<<"
+  ">>>"
+  "||"
+  "&&"
+  "!"
+  ".."
+  "+="
+  "-="
+  "*="
+  "/="
+  "%="
+  "&="
+  "|="
+  "^="
+  "<<="
+  ">>="
+  "<<<="
+  ">>>="
+  "||="
+  "&&="
+] @operator
+
+; Punctuation
+
+[ "{" "}" ] @punctuation.bracket
+
+[ "(" ")" ] @punctuation.bracket
+
+[ "[" "]" ] @punctuation.bracket
+
+[
+  "`"
+  "->"
+  "."
+  ","
+  ":"
+  ";"
+] @punctuation.delimiter
+
+; Comments
+
+[
+  (comment)
+  (block_comment)
+] @comment @spell
+
+; Errors
+
+(ERROR) @error
+
+(block_comment) @comment
+(comment) @comment
+
+directive: ("#") @keyword ; #if
+type: ("type_of") @type
+
+(compiler_directive) @keyword
+(heredoc_start) @none
+(heredoc_end) @none
+(heredoc_body) @string
+(note) @string

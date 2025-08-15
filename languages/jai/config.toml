@@ -1,8 +1,8 @@
-name = "jai"
+name = "Jai"
 grammar = "jai"
 path_suffixes = ["jai"]
 line_comments = ["// "]
-block_comment = ["/* ", " */"]
+# block_comment = ["/* ", " */"]
 autoclose_before = ";:.,=}])>"
 brackets = [
     { start = "{", end = "}", close = true, newline = true },
