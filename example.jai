@@ -11,6 +11,13 @@ System :: #import "System";
     case;
 }
 
+/* This is block comment */
+
+Fishes :: union {
+    RED_FISH: u64;
+    BLUE_FISH: i64;
+}
+
 Foo_Style :: struct {
     foo.bar2 = "_";
     foo.bar1 = 4;
@@ -193,8 +200,4 @@ main :: () {
      while true {
          #insert return_if_delimiter_found;
      }
-
-
-
-
  }

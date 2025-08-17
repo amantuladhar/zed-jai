@@ -2,7 +2,9 @@ use std::fs;
 use zed::{LanguageServerId, Worktree};
 use zed_extension_api::{self as zed, Result, serde_json, settings::LspSettings};
 
-struct JaiExtension {}
+struct JaiExtension {
+    cached_binary_path: Option<String>,
+}
 
 impl JaiExtension {
     fn language_server_binary_path(
@@ -10,13 +12,35 @@ impl JaiExtension {
         language_server_id: &LanguageServerId,
         worktree: &Worktree,
     ) -> Result<String> {
-        Ok("/dev/null".to_string())
+        let language_server = language_server_id.as_ref();
+        if let Some(path) = LspSettings::for_worktree(language_server, worktree)
+            .ok()
+            .and_then(|settings| settings.binary)
+            .and_then(|binary| binary.path)
+        {
+            return Ok(path);
+        }
+
+        if let Some(path) = worktree.which(language_server) {
+            self.cached_binary_path = Some(path.clone());
+            return Ok(path);
+        }
+
+        if let Some(path) = &self.cached_binary_path {
+            if fs::metadata(path).map_or(false, |stat| stat.is_file()) {
+                return Ok(path.to_string());
+            }
+        }
+
+        Err("Unable to locate jails binary".to_string())
     }
 }
 
 impl zed::Extension for JaiExtension {
     fn new() -> Self {
-        Self {}
+        Self {
+            cached_binary_path: None,
+        }
     }
 
     fn language_server_command(
@@ -24,8 +48,9 @@ impl zed::Extension for JaiExtension {
         language_server_id: &LanguageServerId,
         worktree: &Worktree,
     ) -> Result<zed::Command> {
+        let ols_binary_path = self.language_server_binary_path(language_server_id, worktree)?;
         Ok(zed::Command {
-            command: "/dev/null".to_string(),
+            command: ols_binary_path,
             args: Default::default(),
             env: Default::default(),
         })
@@ -36,7 +61,11 @@ impl zed::Extension for JaiExtension {
         language_server_id: &LanguageServerId,
         worktree: &Worktree,
     ) -> Result<Option<serde_json::Value>> {
-        Ok(None)
+        let settings = LspSettings::for_worktree(language_server_id.as_ref(), worktree)
+            .ok()
+            .and_then(|lsp_settings| lsp_settings.settings.clone())
+            .unwrap_or_default();
+        Ok(Some(settings))
     }
 }
 
