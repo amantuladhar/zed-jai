@@ -148,9 +148,9 @@ keyword: (identifier) @keyword
 
 ; Constants
 
-((identifier) @constant
-  (#lua-match? @constant "^_*[A-Z][A-Z0-9_]*$")
-  (#not-has-parent? @constant type parameter))
+; ((identifier) @constant
+;   (#lua-match? @constant "^_*[A-Z][A-Z0-9_]*$")
+;   (#not-has-parent? @constant type parameter))
 
 (member_expression . "." (identifier) @constant)
 

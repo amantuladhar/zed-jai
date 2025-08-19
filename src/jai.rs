@@ -48,9 +48,10 @@ impl zed::Extension for JaiExtension {
         language_server_id: &LanguageServerId,
         worktree: &Worktree,
     ) -> Result<zed::Command> {
-        let ols_binary_path = self.language_server_binary_path(language_server_id, worktree)?;
+        let jails_binary_path = self.language_server_binary_path(language_server_id, worktree)?;
         Ok(zed::Command {
-            command: ols_binary_path,
+            command: jails_binary_path,
+            // args: vec!["-verbose".to_string()],
             args: Default::default(),
             env: Default::default(),
         })
