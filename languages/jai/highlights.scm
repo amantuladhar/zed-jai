@@ -3,7 +3,7 @@
 [
   (import)
   (load)
-] @include
+] @preproc
 
 
 ; Keywords
@@ -58,21 +58,21 @@
 
 [
   "return"
-] @keyword.return
+] @keyword
 
 [
   "if"
   "else"
   "case"
   "break"
-] @conditional
+] @keyword
 
 ((if_expression
   [
     "then"
     "ifx"
     "else"
-  ] @conditional.ternary)
+  ] @keyword)
   (#set! "priority" 105))
 
 ; Repeats
@@ -81,7 +81,7 @@
   "for"
   "while"
   "continue"
-] @repeat
+] @keyword
 
 ; Variables
 
@@ -92,16 +92,16 @@ named_argument: (identifier) @variable
 (member_expression (identifier) @variable)
 (parenthesized_expression (identifier) @variable)
 
-((identifier) @variable.builtin
-  (#any-of? @variable.builtin "context"))
+((identifier) @variable.special
+  (#any-of? @variable.special "context"))
 
 ; Namespaces
 
-(import (identifier) @namespace)
+(import (identifier) @constant)
 
 ; Parameters
 
-(parameter (identifier) @parameter ":" "="? (identifier)? @constant)
+(parameter (identifier) @variable ":" "="? (identifier)? @constant)
 
 ; (call_expression argument: (identifier) @parameter "=")
 
@@ -110,7 +110,7 @@ named_argument: (identifier) @variable
 ; (procedure_declaration (identifier) @function (procedure (block)))
 (procedure_declaration (identifier) @function (block))
 
-(call_expression function: (identifier) @function.call)
+(call_expression function: (identifier) @function)
 
 ; Types
 
@@ -121,8 +121,8 @@ type: (identifier) @type
 modifier: (identifier) @keyword
 keyword: (identifier) @keyword
 
-((types (identifier) @type.builtin)
-  (#any-of? @type.builtin
+((types (identifier) @type)
+  (#any-of? @type
     "bool" "int" "string"
     "s8" "s16" "s32" "s64"
     "u8" "u16" "u32" "u64"
@@ -141,10 +141,10 @@ keyword: (identifier) @keyword
 
 ; Fields
 
-(member_expression "." (identifier) @field)
+(member_expression "." (identifier) @property)
 
-(assignment_statement (identifier) @field "="?)
-(update_statement (identifier) @field)
+(assignment_statement (identifier) @property "="?)
+(update_statement (identifier) @variable)
 
 ; Constants
 
@@ -152,7 +152,7 @@ keyword: (identifier) @keyword
 ;   (#lua-match? @constant "^_*[A-Z][A-Z0-9_]*$")
 ;   (#not-has-parent? @constant type parameter))
 
-(member_expression . "." (identifier) @constant)
+(member_expression . "." (identifier) @property)
 
 (enum_declaration "{" (identifier) @constant)
 
@@ -172,7 +172,7 @@ keyword: (identifier) @keyword
 [
   (uninitialized)
   (null)
-] @constant.builtin
+] @constant
 
 ; Operators
 
@@ -240,11 +240,11 @@ keyword: (identifier) @keyword
 [
   (comment)
   (block_comment)
-] @comment @spell
+] @comment
 
 ; Errors
 
-(ERROR) @error
+(ERROR) @text.literal
 
 (block_comment) @comment
 (comment) @comment
@@ -253,7 +253,7 @@ directive: ("#") @keyword ; #if
 type: ("type_of") @type
 
 (compiler_directive) @keyword
-(heredoc_start) @none
-(heredoc_end) @none
+(heredoc_start) @punctuation.delimiter
+(heredoc_end) @punctuation.delimiter
 (heredoc_body) @string
 (note) @string
