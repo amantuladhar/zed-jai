@@ -88,7 +88,7 @@
 ; (identifier) @variable
 name: (identifier) @variable
 argument: (identifier) @variable
-named_argument: (identifier) @variable
+named_argument: (identifier) @hint
 (member_expression (identifier) @variable)
 (parenthesized_expression (identifier) @variable)
 
@@ -143,16 +143,14 @@ keyword: (identifier) @keyword
 
 (member_expression "." (identifier) @property)
 
+(member_expression . "." (identifier) @property)
+
+; Constants ( Assuming ALL CAPS are constants )
+((identifier) @constant
+ (#match? @constant "^[A-Z][A-Z0-9_]*$"))
+
 (assignment_statement (identifier) @property "="?)
 (update_statement (identifier) @variable)
-
-; Constants
-
-; ((identifier) @constant
-;   (#lua-match? @constant "^_*[A-Z][A-Z0-9_]*$")
-;   (#not-has-parent? @constant type parameter))
-
-(member_expression . "." (identifier) @property)
 
 (enum_declaration "{" (identifier) @constant)
 
@@ -160,7 +158,6 @@ keyword: (identifier) @keyword
 
 (integer) @number
 (float) @number
-
 (string) @string
 
 ;(character) @character
@@ -175,13 +172,16 @@ keyword: (identifier) @keyword
 ] @constant
 
 ; Operators
+[
+"`"
+"*" 
+] @punctuation.special
 
 [
   ":"
   "="
   "+"
   "-"
-  "*"
   "/"
   "%"
   ">"
@@ -227,7 +227,6 @@ keyword: (identifier) @keyword
 [ "[" "]" ] @punctuation.bracket
 
 [
-  "`"
   "->"
   "."
   ","
