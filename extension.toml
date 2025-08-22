@@ -1,6 +1,6 @@
 id = "jai"
 name = "Jai"
-version = "0.1.0"
+version = "0.1.1"
 schema_version = 1
 authors = ["Aman Tuladhar", "Chip Collier"]
 description = "Jai language support"
@@ -11,5 +11,6 @@ name = "jails"
 language = "Jai"
 
 [grammars.jai]
-repository = "https://github.com/constantitus/tree-sitter-jai"
-commit = "9d6fa4a91fbb2a7d7ff69e688c4d2ff5bed45695"
+# Will replace with 'https://github.com/constantitus/tree-sitter-jai' if PR gets merged
+repository = "https://github.com/amantuladhar/tree-sitter-jai"
+commit = "e9826985ad7b40fa91544a282909fa8159150d71"

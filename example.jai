@@ -68,6 +68,13 @@ Value :: struct {
 Process_Type :: enum {
     PARENT;
     CHILD;
+    FIELD1;
+    FIELD2;
+    FIELD3;
+    FIELD4;
+    FIELD5;
+    FIELD6;
+    FIELD7;
 };
 
 Process_Type_Specified :: enum #specified {
@@ -112,6 +119,8 @@ custom_logger :: (message: string, data: *void, info: Log_Info) {
     write_string(msg);
 }
 main :: () {
+    inline_enum_example : enum { HELLO; WORLD; } = .HELLO;
+
     defer { report_memory_leaks(); }
     foo := 100;
     bar :: 100;

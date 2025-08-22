@@ -152,7 +152,9 @@ keyword: (identifier) @keyword
 (assignment_statement (identifier) @property "="?)
 (update_statement (identifier) @variable)
 
-(enum_declaration "{" (identifier) @constant)
+(enum_declaration
+      name: (identifier) @type
+      (enum_field  (identifier) @constant))
 
 ; Literals
 
@@ -217,6 +219,11 @@ keyword: (identifier) @keyword
   "||="
   "&&="
 ] @operator
+
+; Hack for now to get these directive highlighted
+[
+    "#char"
+] @keyword
 
 ; Punctuation
 
